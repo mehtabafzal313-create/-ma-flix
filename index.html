@@ -1,154 +1,212 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MA Flix - Movies & Entertainment</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#050505">
+<title>MA FLIX — Movies & Shows</title>
 <style>
+:root{--bg:#050505;--panel:#151515;--gold:#ffc400;--muted:#a7a7a7;--red:#ff4b55}
 *{box-sizing:border-box}
-body{margin:0;background:#090b12;color:#fff;font-family:Arial,sans-serif}
-header{padding:20px 16px;background:#11131d;border-bottom:2px solid #e50914}
-.logo{font-size:32px;font-weight:900;color:#f21d35}
-.logo span{color:white}
-header p{color:#aaa;font-size:13px}
-.hero{padding:28px 18px;background:linear-gradient(120deg,#3b1024,#15172b,#080910)}
-.hero h1{font-size:30px;margin:0 0 10px}
-.hero p{color:#ddd;line-height:1.5}
-main{padding:16px}
-input,select{width:100%;padding:13px;margin:6px 0 12px;border:1px solid #303444;border-radius:8px;background:#171a25;color:white;font-size:15px}
-h2{font-size:21px;margin-top:25px}
-.movies{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
-.card{background:#171a25;border-radius:11px;overflow:hidden;padding-bottom:12px;border:1px solid #272b39}
-.poster{width:100%;height:190px;object-fit:cover;display:block;background:#25283a}
-.card h3{font-size:15px;margin:10px 9px 5px}
-.card p{font-size:12px;color:#bbb;margin:5px 9px 10px}
-.tag{display:inline-block;background:#292d3d;color:#ddd;padding:4px 7px;border-radius:5px;font-size:10px;margin:0 9px}
-.btn{display:block;text-align:center;background:#e50914;color:#fff;text-decoration:none;padding:10px 5px;margin:12px 9px 0;border-radius:6px;font-size:13px;font-weight:bold}
-.btn:hover{background:#b80710}
-.note{background:#151824;border-radius:8px;padding:13px;color:#bbb;font-size:13px;line-height:1.6}
-footer{text-align:center;padding:25px;color:#888;font-size:12px}
-@media(min-width:600px){.movies{grid-template-columns:repeat(3,minmax(0,1fr))}.poster{height:240px}}
+body{margin:0;background:var(--bg);color:#f5f5f5;font-family:Arial,Helvetica,sans-serif}
+a{color:inherit;text-decoration:none}
+button,input{font:inherit}
+.topbar{display:flex;align-items:center;gap:14px;padding:14px 16px;background:#080808;border-bottom:1px solid #222;position:sticky;top:0;z-index:10}
+.brand{font-weight:900;font-size:clamp(25px,6vw,38px);letter-spacing:-1.5px;color:#f8f8f8;white-space:nowrap}
+.brand span{color:var(--gold)}
+.tagline{font-size:11px;color:#aaa;margin-top:3px}
+.menu-btn{width:43px;height:40px;border:1px solid #444;background:#111;color:#fff;border-radius:5px;font-size:24px;cursor:pointer}
+.top-actions{margin-left:auto;color:#bbb;font-size:12px}
+.hero-wrap{padding:12px 0 4px}
+.section-kicker{font-size:12px;color:var(--gold);font-weight:700;letter-spacing:1.4px;margin:8px 16px}
+.hero-strip{display:flex;gap:5px;overflow-x:auto;scroll-snap-type:x mandatory;padding:0 12px 8px;scrollbar-width:thin}
+.hero-card{position:relative;flex:0 0 43%;max-width:260px;aspect-ratio:2/3;overflow:hidden;border-radius:3px;scroll-snap-align:start;background:#222}
+.hero-card img{width:100%;height:100%;object-fit:cover;display:block}
+.hero-card:after{content:"";position:absolute;inset:35% 0 0;background:linear-gradient(transparent,rgba(0,0,0,.92))}
+.hero-caption{position:absolute;bottom:12px;left:10px;right:8px;z-index:1;font-weight:800;font-size:clamp(14px,3.7vw,20px);text-shadow:0 1px 4px #000}
+.toolbar{display:flex;align-items:stretch;gap:0;padding:0 12px;margin:10px 0 18px}
+.nav-chip{border:0;background:#151515;color:#fff;padding:14px 15px;min-height:58px;cursor:pointer}
+.nav-chip:first-child{border-radius:7px 0 0 7px;font-size:22px}
+.nav-chip.active{background:var(--gold);color:#080808;font-weight:900}
+.search{flex:1;min-width:0;border:2px solid #168bff;background:#fff;color:#111;padding:12px 14px;border-radius:7px;font-size:17px}
+.notice{margin:0 20px 24px;padding:18px 16px;text-align:center;border:1px solid #393333;border-radius:9px;background:linear-gradient(140deg,#302727,#111);font-size:clamp(15px,4vw,20px);line-height:1.5;color:#eee}
+.notice strong{color:var(--red)}
+.notice span{color:#56b8ff}
+.section{margin:0 16px 28px}
+.section-title{display:flex;align-items:center;gap:10px;padding:16px 14px;margin:0 0 16px;background:#171717;border:1px solid #222;border-radius:6px;font-size:clamp(21px,5vw,28px)}
+.section-title .flame{color:var(--gold)}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.movie-card{min-width:0;cursor:pointer;background:#0d0d0d;border:1px solid #202020;border-radius:3px;overflow:hidden;transition:transform .15s,border-color .15s}
+.movie-card:hover{transform:translateY(-2px);border-color:#777}
+.poster-wrap{position:relative;aspect-ratio:2/3;background:#202020;overflow:hidden}
+.poster-wrap img{width:100%;height:100%;object-fit:cover;display:block}
+.quality{position:absolute;top:8px;left:8px;background:var(--gold);color:#111;font-size:10px;font-weight:900;padding:4px 6px;border-radius:2px}
+.play-dot{position:absolute;right:9px;bottom:9px;width:36px;height:36px;border-radius:50%;display:grid;place-items:center;background:rgba(0,0,0,.8);border:1px solid #777}
+.movie-info{padding:10px}
+.movie-title{font-weight:700;font-size:14px;line-height:1.35;margin:0 0 6px}
+.meta{color:var(--muted);font-size:12px}
+.empty{grid-column:1/-1;text-align:center;padding:28px 12px;color:#aaa;background:#111;border-radius:6px}
+footer{padding:24px 16px;text-align:center;color:#888;font-size:12px;border-top:1px solid #222}
+.modal{position:fixed;inset:0;z-index:30;display:none;place-items:center;padding:18px;background:rgba(0,0,0,.88)}
+.modal.open{display:grid}
+.modal-box{width:min(760px,100%);max-height:90vh;overflow:auto;background:#151515;border:1px solid #444;border-radius:10px;padding:16px}
+.modal-head{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.close{border:0;background:#333;color:#fff;border-radius:5px;padding:8px 12px;cursor:pointer}
+.detail{display:grid;grid-template-columns:minmax(110px,34%) 1fr;gap:16px;margin-top:14px}
+.detail img{width:100%;border-radius:5px}
+.detail p{color:#ccc;line-height:1.5}
+.watch-btn{display:inline-block;background:var(--gold);color:#111;font-weight:800;padding:12px 16px;border-radius:5px;border:0;cursor:pointer}
+.video-box{margin-top:16px;display:none}
+.video-box video{width:100%;max-height:55vh;background:#000}
+.small-note{color:#aaa;font-size:12px;line-height:1.5}
+@media(min-width:700px){.topbar{padding:16px 28px}.hero-card{flex-basis:180px}.grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:18px}.section{margin-left:28px;margin-right:28px}.toolbar{padding:0 28px}.notice{margin-left:28px;margin-right:28px}.hero-strip{padding-left:28px}.movie-title{font-size:15px}}
+@media(max-width:380px){.brand{font-size:25px}.top-actions{display:none}.section{margin-left:10px;margin-right:10px}.grid{gap:9px}.toolbar{padding:0 8px}.nav-chip{padding:12px 10px}.search{font-size:15px}}
 </style>
 </head>
 <body>
-<header>
-  <div class="logo">MA <span>FLIX</span> 🎬</div>
-  <p>Your movie world starts here.</p>
+<header class="topbar">
+  <button class="menu-btn" id="menuBtn" aria-label="Show sections">☰</button>
+  <div>
+    <div class="brand">MA <span>FLIX</span></div>
+    <div class="tagline">MOVIES • SHOWS • ENTERTAINMENT</div>
+  </div>
+  <div class="top-actions">WATCH • DISCOVER</div>
 </header>
 
-<section class="hero">
-  <h1>Discover Your Next Movie 🍿</h1>
-  <p>Explore free films, discover new stories and enjoy your entertainment.</p>
-</section>
-
 <main>
-  <input id="search" type="search" placeholder="🔎 Search movies..." oninput="filterMovies()">
+  <section class="hero-wrap" aria-label="Featured movies">
+    <div class="section-kicker">FEATURED • TRENDING NOW</div>
+    <div class="hero-strip" id="heroStrip"></div>
+  </section>
 
-  <select id="genre" onchange="filterMovies()">
-    <option value="all">All Categories</option>
-    <option value="animation">Animation</option>
-    <option value="adventure">Adventure</option>
-    <option value="fantasy">Fantasy</option>
-    <option value="short">Short Films</option>
-  </select>
-
-  <h2>⭐ Featured Films</h2>
-
-  <div class="movies" id="movies">
-
-    <article class="card" data-genre="animation">
-      <img class="poster" src="https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?auto=format&fit=crop&w=500&q=80" alt="Space and stars" loading="lazy">
-      <h3>Big Buck Bunny</h3>
-      <span class="tag">Animation</span>
-      <p>An animated comedy adventure.</p>
-      <a class="btn" href="https://peach.blender.org/" target="_blank" rel="noopener">Watch Free ↗</a>
-    </article>
-
-    <article class="card" data-genre="fantasy">
-      <img class="poster" src="https://images.unsplash.com/photo-1478720568477-152d9b164e26?auto=format&fit=crop&w=500&q=80" alt="Cinema screen" loading="lazy">
-      <h3>Sintel</h3>
-      <span class="tag">Fantasy</span>
-      <p>A fantasy adventure film.</p>
-      <a class="btn" href="https://durian.blender.org/" target="_blank" rel="noopener">Watch Free ↗</a>
-    </article>
-
-    <article class="card" data-genre="adventure">
-      <img class="poster" src="https://images.unsplash.com/photo-1462331940025-496dfbfc7564?auto=format&fit=crop&w=500&q=80" alt="Stars and galaxy" loading="lazy">
-      <h3>Elephants Dream</h3>
-      <span class="tag">Adventure</span>
-      <p>A surreal animated short film.</p>
-      <a class="btn" href="https://orange.blender.org/" target="_blank" rel="noopener">Watch Free ↗</a>
-    </article>
-
-    <article class="card" data-genre="short">
-      <img class="poster" src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=500&q=80" alt="Beautiful landscape" loading="lazy">
-      <h3>Open Movie Collection</h3>
-      <span class="tag">Short Films</span>
-      <p>Explore films published by Blender Studio.</p>
-      <a class="btn" href="https://studio.blender.org/films/" target="_blank" rel="noopener">Explore Films ↗</a>
-    </article>
-
-    <article class="card" data-genre="animation">
-      <img class="poster" src="https://images.unsplash.com/photo-1519608487953-e999c86e7455?auto=format&fit=crop&w=500&q=80" alt="Night sky" loading="lazy">
-      <h3>Free Film Library</h3>
-      <span class="tag">Animation</span>
-      <p>Discover more creative open films.</p>
-      <a class="btn" href="https://www.blender.org/about/projects/" target="_blank" rel="noopener">Discover ↗</a>
-    </article>
-
-    <article class="card" data-genre="adventure">
-      <img class="poster" src="https://images.unsplash.com/photo-1518837695005-2083093ee35b?auto=format&fit=crop&w=500&q=80" alt="Ocean waves" loading="lazy">
-      <h3>More Free Movies</h3>
-      <span class="tag">Adventure</span>
-      <p>Find films you can legally enjoy.</p>
-      <a class="btn" href="https://archive.org/details/movies" target="_blank" rel="noopener">Browse Films ↗</a>
-    </article>
-
+  <div class="toolbar">
+    <button class="nav-chip" id="menuJump" aria-label="Browse sections">☰</button>
+    <button class="nav-chip active" id="allMoviesBtn">▦ &nbsp; Movies</button>
+    <input class="search" id="searchInput" type="search" placeholder="Search here..." aria-label="Search movies">
   </div>
 
-  <h2>🎥 About MA Flix</h2>
-  <div class="note">
-    Welcome to MA Flix! Browse movie artwork and explore films through their linked websites. Film availability and download permissions depend on each film's licence and provider.
-  </div>
+  <div class="notice"><strong>MA FLIX</strong> — Discover movies and shows. Select a title to see details and play a video when an authorized video source is available. <span>New releases & top picks</span></div>
+
+  <section class="section" id="latestSection">
+    <h2 class="section-title"><span class="flame">♨</span> Latest Releases</h2>
+    <div class="grid" id="latestGrid"></div>
+  </section>
+
+  <section class="section" id="topSection">
+    <h2 class="section-title"><span class="flame">★</span> Top Movies</h2>
+    <div class="grid" id="topGrid"></div>
+  </section>
 </main>
 
-<footer>© 2026 MA Flix · Made with ❤️</footer>
+<footer>MA FLIX • Movie information and posters are for browsing. Only use video links you own or are authorized to stream.</footer>
+
+<div class="modal" id="movieModal" role="dialog" aria-modal="true" aria-label="Movie details">
+  <div class="modal-box">
+    <div class="modal-head"><h2 id="modalTitle">Movie details</h2><button class="close" id="closeModal">✕ Close</button></div>
+    <div class="detail">
+      <img id="modalPoster" alt="Movie poster">
+      <div><div class="meta" id="modalMeta"></div><p id="modalDescription"></p><button class="watch-btn" id="watchBtn">▶ Watch movie</button><p class="small-note" id="watchNote">If a playable source is configured for this title, the player will open below.</p></div>
+    </div>
+    <div class="video-box" id="videoBox"><video id="videoPlayer" controls playsinline></video></div>
+  </div>
+</div>
 
 <script>
-function filterMovies(){
-  const query=document.getElementById('search').value.toLowerCase();
-  const genre=document.getElementById('genre').value;
-  document.querySelectorAll('.card').forEach(card=>{
-    const matchesText=card.innerText.toLowerCase().includes(query);
-    const matchesGenre=genre==='all'||card.dataset.genre===genre;
-    card.style.display=matchesText&&matchesGenre?'block':'none';
+/*
+  MA FLIX movie list:
+  - poster: image URL for the card
+  - video: direct MP4/HLS URL that you own or are licensed to stream.
+  Replace demo posters and video URLs with your own authorized media.
+*/
+const movies = [
+  {id:1,title:"Big Buck Bunny",year:2008,genre:"Animation • Comedy",rank:1,description:"A cheerful animated short about a giant rabbit and three mischievous rodents.",poster:"https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&w=600&q=80",video:"https://storage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"},
+  {id:2,title:"Sintel",year:2010,genre:"Animation • Fantasy",rank:2,description:"A fantasy adventure short film. Replace this sample entry with a licensed source if needed.",poster:"https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=600&q=80",video:""},
+  {id:3,title:"Elephants Dream",year:2006,genre:"Animation • Sci-Fi",rank:3,description:"An experimental animated short set in a surreal world.",poster:"https://images.unsplash.com/photo-1519608487953-e999c86e7455?auto=format&fit=crop&w=600&q=80",video:""},
+  {id:4,title:"Cosmos",year:2019,genre:"Documentary • Science",rank:4,description:"A sample listing for a science documentary. Add your authorized poster and video source.",poster:"https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?auto=format&fit=crop&w=600&q=80",video:""},
+  {id:5,title:"Nature's World",year:2022,genre:"Documentary • Nature",rank:5,description:"A sample nature title for the MA FLIX layout.",poster:"https://images.unsplash.com/photo-1472396961693-142e6e269027?auto=format&fit=crop&w=600&q=80",video:""},
+  {id:6,title:"Ocean Life",year:2021,genre:"Documentary • Nature",rank:6,description:"A sample ocean-themed title. Replace with your own authorized media.",poster:"https://images.unsplash.com/photo-1518837695005-2083093ee35b?auto=format&fit=crop&w=600&q=80",video:""},
+  {id:7,title:"Mountain Journey",year:2023,genre:"Adventure",rank:7,description:"A sample adventure listing for demonstrating the movie catalogue.",poster:"https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=600&q=80",video:""},
+  {id:8,title:"City Lights",year:2020,genre:"Drama",rank:8,description:"A sample drama listing. Add a legal streaming link to enable playback.",poster:"https://images.unsplash.com/photo-1519608487953-e999c86e7455?auto=format&fit=crop&w=600&q=80",video:""}
+];
+
+const fallbackPoster = "data:image/svg+xml;charset=UTF-8," + encodeURIComponent(
+  '<svg xmlns="http://www.w3.org/2000/svg" width="600" height="900" viewBox="0 0 600 900"><rect width="600" height="900" fill="#202020"/><text x="50%" y="47%" fill="#ffc400" font-family="Arial" font-size="48" font-weight="bold" text-anchor="middle">MA FLIX</text><text x="50%" y="54%" fill="#aaa" font-family="Arial" font-size="24" text-anchor="middle">POSTER</text></svg>'
+);
+
+function makeCard(movie){
+  const card = document.createElement("article");
+  card.className = "movie-card";
+  card.tabIndex = 0;
+  card.setAttribute("role","button");
+  card.setAttribute("aria-label","Open " + movie.title);
+  card.innerHTML = `<div class="poster-wrap"><img loading="lazy" alt="" src="${movie.poster}"><span class="quality">HD</span><span class="play-dot">▶</span></div><div class="movie-info"><h3 class="movie-title"></h3><div class="meta"></div></div>`;
+  const img = card.querySelector("img");
+  img.addEventListener("error",()=>{img.src=fallbackPoster;});
+  card.querySelector(".movie-title").textContent = movie.title;
+  card.querySelector(".meta").textContent = `${movie.year} • ${movie.genre}`;
+  card.addEventListener("click",()=>openMovie(movie));
+  card.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();openMovie(movie);}});
+  return card;
+}
+function renderGrid(targetId,list){
+  const target=document.getElementById(targetId);
+  target.replaceChildren();
+  if(!list.length){target.innerHTML='<div class="empty">No movies found. Try another title.</div>';return;}
+  list.forEach(m=>target.appendChild(makeCard(m)));
+}
+function renderHero(){
+  const strip=document.getElementById("heroStrip");
+  strip.replaceChildren();
+  movies.slice(0,6).forEach(movie=>{
+    const card=document.createElement("article");
+    card.className="hero-card";
+    card.innerHTML=`<img loading="lazy" alt=""><div class="hero-caption"></div>`;
+    const img=card.querySelector("img");
+    img.src=movie.poster;
+    img.alt=movie.title;
+    img.addEventListener("error",()=>{img.src=fallbackPoster;});
+    card.querySelector(".hero-caption").textContent=movie.title;
+    card.addEventListener("click",()=>openMovie(movie));
+    strip.appendChild(card);
   });
 }
+function renderAll(query=""){
+  const q=query.trim().toLowerCase();
+  const filtered=movies.filter(m=>(m.title+" "+m.genre+" "+m.year).toLowerCase().includes(q));
+  renderGrid("latestGrid",filtered);
+  renderGrid("topGrid",[...filtered].sort((a,b)=>a.rank-b.rank));
+}
+const modal=document.getElementById("movieModal");
+const player=document.getElementById("videoPlayer");
+function openMovie(movie){
+  document.getElementById("modalTitle").textContent=movie.title;
+  document.getElementById("modalPoster").src=movie.poster;
+  document.getElementById("modalPoster").onerror=()=>{document.getElementById("modalPoster").src=fallbackPoster;};
+  document.getElementById("modalMeta").textContent=`${movie.year} • ${movie.genre}`;
+  document.getElementById("modalDescription").textContent=movie.description;
+  document.getElementById("watchNote").textContent=movie.video?"A video source is configured for this title.":"No video source is configured for this title yet. Add an authorized MP4/HLS URL in the movies list.";
+  document.getElementById("videoBox").style.display="none";
+  player.pause();player.removeAttribute("src");player.load();
+  document.getElementById("watchBtn").disabled=!movie.video;
+  document.getElementById("watchBtn").style.opacity=movie.video?"1":".5";
+  document.getElementById("watchBtn").onclick=()=>{
+    if(!movie.video)return;
+    player.src=movie.video;
+    document.getElementById("videoBox").style.display="block";
+    player.play().catch(()=>{});
+  };
+  modal.classList.add("open");
+}
+function closeModal(){modal.classList.remove("open");player.pause();player.removeAttribute("src");player.load();}
+document.getElementById("closeModal").addEventListener("click",closeModal);
+modal.addEventListener("click",e=>{if(e.target===modal)closeModal();});
+document.addEventListener("keydown",e=>{if(e.key==="Escape")closeModal();});
+document.getElementById("searchInput").addEventListener("input",e=>renderAll(e.target.value));
+function jumpToMovies(){document.getElementById("latestSection").scrollIntoView({behavior:"smooth"});}
+document.getElementById("menuBtn").addEventListener("click",jumpToMovies);
+document.getElementById("menuJump").addEventListener("click",jumpToMovies);
+document.getElementById("allMoviesBtn").addEventListener("click",()=>{document.getElementById("searchInput").value="";renderAll();jumpToMovies();});
+renderHero();renderAll();
 </script>
-  
-<section id="big-buck-bunny" style="max-width:900px;margin:30px auto;padding:16px;background:#171717;color:white;border-radius:12px;">
-  <h2>Big Buck Bunny (2008)</h2>
-  <p>Free animated movie</p>
-
-  <video controls playsinline preload="metadata"
-    style="width:100%;border-radius:10px;background:#000;">
-    <source
-      src=https://download.blender.org/peach/bigbuckbunny_movies/BigBuckBunny_320x180.mp4
-      type="video/x-msvideo">
-    Your browser may not support this video format.
-  </video>
-
-  <p style="font-size:14px;">
-    © 2008 Blender Foundation / www.bigbuckbunny.org
-  </p>
-  <p>
-    Licensed under Creative Commons Attribution 3.0.
-    <a href="https://peach.blender.org/about/" style="color:#ffb000;">
-      License details
-    </a>
-  </p>
-</section>
-  
 </body>
 </html>
